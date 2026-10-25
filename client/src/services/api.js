@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000/api';
+export const API_BASE = import.meta.env.VITE_API_BASE || 'https://organ-ease-v1-6kvo.vercel.app/api';
 
 function getHeaders() {
   const token = localStorage.getItem('organ_ease_token');

@@ -19,20 +19,30 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/organ_ease';
-const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';
+const CORS_ORIGINS = [
+  'http://localhost:5173',
+  'https://organ-ease-v1.vercel.app',
+  ...(process.env.CORS_ORIGIN || '').split(',')
+]
+  .map((origin) => origin.trim().replace(/\/+$/, ''))
+  .filter(Boolean);
+const corsOptions = {
+  origin: CORS_ORIGINS,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
 // Configure Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: '*', // Allow development frontend
-    methods: ['GET', 'POST']
+    ...corsOptions
   }
 });
 
 initializeSocket(io);
 
 // Middleware
-app.use(cors({ origin: '*' }));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Request logging in development

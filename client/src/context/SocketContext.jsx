@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { useAuth } from './AuthContext';
+import { API_BASE } from '../services/api';
 
 const SocketContext = createContext(null);
 
@@ -46,7 +47,7 @@ export function SocketProvider({ children }) {
   };
 
   useEffect(() => {
-    const s = io('http://localhost:5000', {
+    const s = io(new URL(API_BASE).origin, {
       transports: ['websocket', 'polling']
     });
 
