@@ -1,4 +1,4 @@
-export const API_BASE = import.meta.env.VITE_API_BASE || 'https://organ-ease-v1-6kvo.vercel.app/api';
+export const API_BASE = import.meta.env.VITE_API_BASE || 'https://organease-v1.onrender.com/api';
 
 function getHeaders() {
   const token = localStorage.getItem('organ_ease_token');
